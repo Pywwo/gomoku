@@ -1,0 +1,19 @@
+On this project, we used MinMax approach to create the AI.
+
+The "gomoku.py" file parse the command and execute it. It contains the "answer" function
+that create a tree of nodes (for the MinMax), get the best move and play it.
+
+
+The Tree class is available in "tree.py" file. It contains a class that take 
+the current player, the board and the depth of the tree that you want.
+After the initialization, you can get the best move buy calling the "get_minmax_score"
+function of Tree class.
+
+The score.py file calculate the score of a player on a given board.
+
+The score is calculate as following:
+    - if the move will be able to win (if it is not a useless move)
+    - if you have open ends on a move (if you can play on both side, one side or none side of the move after)
+    - the number of ally pawns beside
+
+The "check_win.py" file find if a board has a winning position. 
