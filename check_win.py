@@ -1,55 +1,19 @@
 #!/usr/bin/env python3
 
-def check_vertically(array, checking, i, j, sizemax):
-    a = i
-    while a < i + 5:
-        if a >= sizemax:
-            return False
-        if array[a][j] != checking:
-            return False
-        a += 1
-    return True
-
-def check_horizontally(array, checking, i, j, sizemax):
-    a = j
-    while a < j + 5:
-        if a >= sizemax:
-            return False
-        if array[i][a] != checking:
-            return False
-        a += 1
-    return True
-
-def check_diagonally_left(array, checking, i, j, sizemax):
-    if j - 5 < 0 or i + 5 > sizemax:
+def check_line(array, checking, start, step, sizemax):
+    end = start + 5 * step
+    if end < 0 or end > sizemax:
         return False
-    a = 0
-    while a < 5:
-        if array[i + a][j - a] != checking:
-            return False
-        a += 1
-    return True
-
-def check_diagonally_right(array, checking, i, j, sizemax):
-    if j + 5 > sizemax or i + 5 > sizemax:
-        return False
-    a = 0
-    while a < 5:
-        if array[i + a][j + a] != checking:
-            return False
-        a += 1
-    return True
+    return all(array[i][j] == checking for i, j in zip(range(start, end, step), [start] * 5))
 
 def check_win_five(array, checking):
-    for i in range(len(array)):
+    sizemax = len(array)
+    for i in range(sizemax):
         for j in range(len(array[0])):
             if array[i][j] == checking:
-                if check_horizontally(array, checking, i, j, len(array)) == True:
-                    return True
-                if check_vertically(array, checking, i, j, len(array)) == True:
-                    return True
-                if check_diagonally_left(array, checking, i, j, len(array)) == True:
-                    return True
-                if check_diagonally_right(array, checking, i, j, len(array)) == True:
+                if any(check_line(array, checking, j, 1, sizemax),
+                       check_line(array, checking, i, 1, sizemax),
+                       check_line(array, checking, j - i, 1, sizemax),
+                       check_line(array, checking, i + j, -1, sizemax)):
                     return True
     return False
